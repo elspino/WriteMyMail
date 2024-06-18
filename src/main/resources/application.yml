@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:postgres}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  mail:
+    protocol: smtp
+    host: smtp
+    port: 465
+    username: "username"
+    password: "password"
+    properties:
+      auth: true
+      starttls:
+        enable: true
+#  ai:
+#    openai:
+#      api-key: ""
+
+
+
+
+jwt:
+  secret: "9c9NIoKyi7qSnymRXfLx88ele4uhtjI7GaBVX0eSJJnBxEnLPwfzJa6IMrzjvtXLuHUWHN/9sv/ODXYx8Sn2loZACfbNC6LC8K44knfs719cDUN+z/9rW7e3pU1B16I9bVl/W8WApNRKxlu63F8bph1bA6aVu+Cq75y0+vCG+GQocknv1SschbMMnIauIWehK1ChNLObg0jh+eiQKreYAV25TlfiM4noQduyYsfIF2G2lGSa/r69F+D95ZiVdq0WqBzuwuTSXRxqekWCR6wyTPzkkQYmyJtm7WgUWc+zmihLCJbB8PgHaoBEqxE6R0+5YOhWyBPcoK4u1Lj9fANa61L+/nMExkC+qyyt0ljY8tU="
+  accessTokenExpirationMs: 1800000000
+  refreshTokenExpirationMs: 86400000
