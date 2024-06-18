@@ -90,4 +90,5 @@ public class ErrorHandlingControllerAdvice {
     public CustomErrorResponse handleUserNotFoundException(UserNotFoundException e){
         return new CustomErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }
+
 }

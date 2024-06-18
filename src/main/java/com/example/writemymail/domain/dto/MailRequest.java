@@ -6,8 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MailRequest {
-    String From;
-    String To;
-    String Subject;
-    String Text;
+    String from;
+    String to;
+    String subject;
+    String text;
 }

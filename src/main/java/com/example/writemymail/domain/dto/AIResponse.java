@@ -10,7 +10,7 @@ public class AIResponse {
     @JsonProperty("is_success")
     private boolean isSuccess;
     @JsonProperty("response")
-    private String response;
+    private String message;
     @JsonProperty("used_words_count")
     private int usedWordsCount;
     @JsonProperty("used_tokens_count")

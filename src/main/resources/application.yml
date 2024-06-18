@@ -26,7 +26,10 @@ spring:
 #      api-key: ""
 
 
-
+ai-chat:
+  chad:
+    api-key: "chad-0c4850aeab6142d395d007a3bf8af447m075rd5j"
+    url: "https://ask.chadgpt.ru/api/public/gpt-3.5"
 
 jwt:
   secret: "9c9NIoKyi7qSnymRXfLx88ele4uhtjI7GaBVX0eSJJnBxEnLPwfzJa6IMrzjvtXLuHUWHN/9sv/ODXYx8Sn2loZACfbNC6LC8K44knfs719cDUN+z/9rW7e3pU1B16I9bVl/W8WApNRKxlu63F8bph1bA6aVu+Cq75y0+vCG+GQocknv1SschbMMnIauIWehK1ChNLObg0jh+eiQKreYAV25TlfiM4noQduyYsfIF2G2lGSa/r69F+D95ZiVdq0WqBzuwuTSXRxqekWCR6wyTPzkkQYmyJtm7WgUWc+zmihLCJbB8PgHaoBEqxE6R0+5YOhWyBPcoK4u1Lj9fANa61L+/nMExkC+qyyt0ljY8tU="

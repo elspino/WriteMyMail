@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
-public class UpgradePromptResponse {
+public class GeneratedMessageResponse {
+    String subject;
     String text;
 }

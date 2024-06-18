@@ -24,9 +24,6 @@ public class EmailServiceImpl implements EmailService{
     private final EmailMapper emailMapper;
 
     @Override
-    public Email save(Email email) {return emailRepository.save(email);}
-
-    @Override
     public void deleteEmail(EmailRequest emailRequest) {
         emailRepository.deleteById(emailRequest.getId());
     }
@@ -66,4 +63,5 @@ public class EmailServiceImpl implements EmailService{
         return emailMapper.emailToResponse(save(email));
     }
 
+    private Email save(Email email) {return emailRepository.save(email);}
 }
