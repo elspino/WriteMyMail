@@ -44,10 +44,7 @@ public class SecurityConfig {
                 }))
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(
-                                "/api/v1/user")
-                            .hasRole(Role.ADMIN.name())
-                        .requestMatchers(
-                                "/api/v1/user/only-access")
+                                "/api/v1/**")
                             .hasRole(Role.USER.name())
                         .requestMatchers(
                                 "/api/v1/auth/register",

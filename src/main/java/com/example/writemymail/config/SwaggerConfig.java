@@ -23,13 +23,13 @@ public class SwaggerConfig {
     @Bean
     OpenAPI customOpenAPI(){
         return new OpenAPI()
-                .info(new Info().title("WriteMyMail").version("v1"));
-//                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
-//                .components(
-//                        new Components()
-//                                .addSecuritySchemes("bearerAuth", new SecurityScheme()
-//                                        .type(SecurityScheme.Type.HTTP)
-//                                        .scheme("bearer")
-//                                        .bearerFormat("JWT")));
+                .info(new Info().title("WriteMyMail").version("v1"))
+                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
+                .components(
+                        new Components()
+                                .addSecuritySchemes("bearerAuth", new SecurityScheme()
+                                        .type(SecurityScheme.Type.HTTP)
+                                        .scheme("bearer")
+                                        .bearerFormat("JWT")));
     }
 }
