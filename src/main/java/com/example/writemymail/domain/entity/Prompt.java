@@ -11,7 +11,7 @@ import lombok.*;
 @ToString
 public class Prompt {
     @Id
-    private String name;
+    private String type;
     @Column(columnDefinition = "TEXT")
-    private String info;
+    private String text;
 }

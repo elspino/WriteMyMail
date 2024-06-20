@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class GeneratePromptRequest {
+public class GenerationPromptRequest {
     String sender;
     String senderInfo;
     String recipientInfo;

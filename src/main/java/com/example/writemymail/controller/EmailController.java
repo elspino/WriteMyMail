@@ -23,7 +23,7 @@ public class EmailController {
     }
 
     @PostMapping("/update")
-    public EmailResponse updateEmail(@RequestBody EmailRequest emailRequest){
-        return emailService.updateEmail(emailRequest);
+    public void updateEmail(@RequestBody EmailRequest emailRequest){
+        emailService.updateEmail(emailRequest);
     }
 }

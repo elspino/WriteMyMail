@@ -3,12 +3,12 @@ package com.example.writemymail.service.email;
 import com.example.writemymail.domain.dto.EmailRequest;
 import com.example.writemymail.domain.dto.EmailResponse;
 import com.example.writemymail.domain.entity.Email;
+import com.example.writemymail.domain.entity.User;
 import com.example.writemymail.error.EmailAlreadyExistsException;
 import com.example.writemymail.error.EmailNotFoundException;
-import com.example.writemymail.error.UserNotFoundException;
 import com.example.writemymail.mapper.EmailMapper;
 import com.example.writemymail.repository.EmailRepository;
-import com.example.writemymail.repository.UserRepository;
+import com.example.writemymail.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,25 +16,38 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class EmailServiceImpl implements EmailService{
+public class EmailServiceImpl implements EmailService {
     private final EmailRepository emailRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final EmailMapper emailMapper;
 
-    @Override
-    public void deleteEmail(EmailRequest emailRequest) {
-        emailRepository.deleteById(emailRequest.getId());
-    }
 
     @Override
-    public EmailResponse updateEmail(EmailRequest emailRequest) {
+    public void updateEmail(EmailRequest emailRequest) {
         UUID emailId = emailRequest.getId();
         String emailName = emailRequest.getName();
         Email email = emailRepository.findById(emailId)
                 .orElseThrow(() -> new EmailNotFoundException("Email not found with id: " + emailId));
         email.setName(emailName);
-        email.setType(emailName.substring(emailName.indexOf("@") + 1));
+        email.setType(getEmailType(emailName));
         email.setPassword(emailRequest.getPassword());
+        save(email);
+    }
+
+    @Override
+    public EmailResponse createEmail(EmailRequest emailRequest) {
+        String name = emailRequest.getName();
+        if (emailRepository.existsByName(name)) {
+            throw new EmailAlreadyExistsException("Такая почта уже добавлена");
+        }
+        UUID userId = emailRequest.getUser().getId();
+        User user = userService.findUserById(userId);
+        Email email = Email.builder()
+                .name(name)
+                .type(getEmailType(name))
+                .password(emailRequest.getPassword())
+                .user(user)
+                .build();
         return emailMapper.emailToResponse(save(email));
     }
 
@@ -45,21 +58,15 @@ public class EmailServiceImpl implements EmailService{
     }
 
     @Override
-    public EmailResponse createEmail(EmailRequest emailRequest) {
-        String name = emailRequest.getName();
-        if (emailRepository.existsByName(name)){
-            throw new EmailAlreadyExistsException("Такая почта уже добавлена");
-        }
-        UUID userId = emailRequest.getUser().getId();
-        Email email = Email.builder()
-                .name(name)
-                .type(name.substring(name.indexOf("@") + 1))
-                .password(emailRequest.getPassword())
-                .user(userRepository.findById(userId)
-                        .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId)))
-                .build();
-        return emailMapper.emailToResponse(save(email));
+    public void deleteEmail(EmailRequest emailRequest) {
+        emailRepository.deleteById(emailRequest.getId());
     }
 
-    private Email save(Email email) {return emailRepository.save(email);}
+    private static String getEmailType(String emailName) {
+        return emailName.substring(emailName.indexOf("@") + 1);
+    }
+
+    private Email save(Email email) {
+        return emailRepository.save(email);
+    }
 }

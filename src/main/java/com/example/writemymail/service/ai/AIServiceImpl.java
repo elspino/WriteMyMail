@@ -1,10 +1,8 @@
 package com.example.writemymail.service.ai;
 
+import com.example.writemymail.mapper.MessageConverter;
 import com.example.writemymail.domain.dto.*;
 import com.example.writemymail.service.prompt.PromptService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.io.IOException;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -17,50 +15,35 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
-public class AIServiceImpl implements AIService{
-    private final RestTemplate restTemplate;
-
+public class AIServiceImpl implements AIService {
     @Value("${ai-chat.chad.api-key}")
     private String api_key;
-
     @Value("${ai-chat.chad.url}")
     private String url;
-
+    private final RestTemplate restTemplate;
+    private final MessageConverter messageConverter;
     private final PromptService promptService;
 
     @Override
-    public GeneratedMessageResponse generateMessage(GeneratePromptRequest promptRequest) {
-        String prompt = promptService.createGeneratePrompt(promptRequest);
-        String response = getResponseFromAI(prompt);
-        return getResponseFromAIMessage(response);
+    public GeneratedMessageResponse generateMessage(GenerationPromptRequest promptRequest) {
+        String prompt = promptService.createGenerationPrompt(promptRequest);
+        String message = getMessageFromAI(prompt);
+        return messageConverter.parseMessageToResponse(message);
     }
 
     @Override
     public UpgradedMessageResponse upgradeMessage(UpgradePromptRequest promptRequest) {
-        String response = getResponseFromAI(promptService.createUpgradePrompt(promptRequest));
+        String prompt = promptService.createUpgradePrompt(promptRequest);
+        String response = getMessageFromAI(prompt);
         return UpgradedMessageResponse.builder()
                 .text(response)
                 .build();
     }
 
-    private String getMessageFromAIResponse(ResponseEntity<String> response) {
-        String jsonResponse = response.getBody();
-
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            AIResponse aiResponse = objectMapper.readValue(jsonResponse, AIResponse.class);
-            return aiResponse.getMessage();
-        } catch (JsonProcessingException e) {
-            throw new IOException("Ошибка обработки JSON" + e.getMessage());
-        }
-    }
-
-    private String getResponseFromAI(String prompt){
+    private String getMessageFromAI(String prompt) {
         Map<String, String> requestJson = new HashMap<>();
         requestJson.put("message", prompt);
         requestJson.put("api_key", api_key);
@@ -70,16 +53,7 @@ public class AIServiceImpl implements AIService{
         HttpEntity<Map<String, String>> entity = new HttpEntity<>(requestJson, headers);
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-        return getMessageFromAIResponse(response);
+        return messageConverter.convertToMessage(response);
     }
 
-    private GeneratedMessageResponse getResponseFromAIMessage(String message) {
-        Pattern pattern = Pattern.compile("ТЕМА: (.*?)\\s+ТЕКСТ: (.*)\\s", Pattern.DOTALL);
-        Matcher matcher = pattern.matcher(message);
-        return GeneratedMessageResponse.builder()
-                .subject(matcher.group(1))
-                .text(matcher.group(2))
-                .build();
-
-    }
 }

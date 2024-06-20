@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PromptRepository extends JpaRepository<Prompt, String> {
-    @Query("SELECT p.info FROM Prompt p WHERE p.name = :name")
-    String findTextByName(String name);
+    @Query("SELECT p.text FROM Prompt p WHERE p.type = :type")
+    String findTextByType(String type);
 }

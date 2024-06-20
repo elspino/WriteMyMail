@@ -30,7 +30,7 @@ public class MailConfig {
 
         return mailSender;
     }
-
+    //todo это должно работать при большой нагрузке(это даже при 10 запросах уже работать не будет)
     public void updateMailConfig(String username, String password, String host) {
         mailSender.setUsername(username);
         mailSender.setPassword(password);

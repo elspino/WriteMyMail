@@ -1,6 +1,6 @@
 create table email (
                        id uuid not null,
-                       "user_id" uuid,
+                       user_id uuid,
                        name varchar(255) not null unique,
                        password varchar(255) not null,
                        type varchar(255),
@@ -25,5 +25,5 @@ create table "user" (
 
 alter table if exists email
     add constraint FKncyt7y2wans100oxk8vgnkl9m
-        foreign key ("user_id")
+        foreign key (user_id)
             references "user"
