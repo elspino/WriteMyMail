@@ -10,7 +10,6 @@ import com.example.writemymail.mapper.EmailMapper;
 import com.example.writemymail.repository.EmailRepository;
 import com.example.writemymail.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -18,7 +17,6 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService{
-    private final PasswordEncoder passwordEncoder;
     private final EmailRepository emailRepository;
     private final UserRepository userRepository;
     private final EmailMapper emailMapper;
@@ -36,7 +34,7 @@ public class EmailServiceImpl implements EmailService{
                 .orElseThrow(() -> new EmailNotFoundException("Email not found with id: " + emailId));
         email.setName(emailName);
         email.setType(emailName.substring(emailName.indexOf("@") + 1));
-        email.setPassword(passwordEncoder.encode(emailRequest.getPassword()));
+        email.setPassword(emailRequest.getPassword());
         return emailMapper.emailToResponse(save(email));
     }
 
@@ -56,7 +54,7 @@ public class EmailServiceImpl implements EmailService{
         Email email = Email.builder()
                 .name(name)
                 .type(name.substring(name.indexOf("@") + 1))
-                .password(passwordEncoder.encode(emailRequest.getPassword()))
+                .password(emailRequest.getPassword())
                 .user(userRepository.findById(userId)
                         .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId)))
                 .build();

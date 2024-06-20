@@ -4,6 +4,7 @@ import com.example.writemymail.domain.dto.*;
 import com.example.writemymail.service.prompt.PromptService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.io.IOException;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -49,12 +50,13 @@ public class AIServiceImpl implements AIService{
 
     private String getMessageFromAIResponse(ResponseEntity<String> response) {
         String jsonResponse = response.getBody();
+
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             AIResponse aiResponse = objectMapper.readValue(jsonResponse, AIResponse.class);
             return aiResponse.getMessage();
         } catch (JsonProcessingException e) {
-            throw new IllegalArgumentException("Ошибка обработки JSON" + e.getMessage());
+            throw new IOException("Ошибка обработки JSON" + e.getMessage());
         }
     }
 

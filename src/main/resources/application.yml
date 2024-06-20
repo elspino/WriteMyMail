@@ -21,9 +21,6 @@ spring:
       auth: true
       starttls:
         enable: true
-#  ai:
-#    openai:
-#      api-key: ""
 
 
 ai-chat:

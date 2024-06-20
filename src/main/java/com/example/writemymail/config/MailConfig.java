@@ -34,6 +34,6 @@ public class MailConfig {
     public void updateMailConfig(String username, String password, String host) {
         mailSender.setUsername(username);
         mailSender.setPassword(password);
-        mailSender.setHost(host);
+        mailSender.setHost("smtp."+host);
     }
 }
