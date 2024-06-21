@@ -2,6 +2,8 @@ package com.example.writemymail.domain.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.UUID;
 
@@ -9,7 +11,8 @@ import java.util.UUID;
 @Setter
 public class EmailRequest {
     private UUID id;
-    private String type;
+    @Email(message = "Invalid email format")
+    @NotBlank(message = "Email cannot be blank")
     private String name;
     private String password;
     private UserRequest user;

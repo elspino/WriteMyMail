@@ -63,7 +63,8 @@ public class EmailServiceImpl implements EmailService {
     }
 
     private static String getEmailType(String emailName) {
-        return emailName.substring(emailName.indexOf("@") + 1);
+        String domain = emailName.substring(emailName.indexOf("@") + 1);
+        return domain.substring(0, domain.indexOf("."));
     }
 
     private Email save(Email email) {
