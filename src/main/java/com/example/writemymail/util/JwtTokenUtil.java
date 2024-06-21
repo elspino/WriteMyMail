@@ -1,5 +1,6 @@
 package com.example.writemymail.util;
 
+import com.example.writemymail.domain.entity.User;
 import com.example.writemymail.error.NotValidTokenException;
 import com.example.writemymail.service.user.UserService;
 import io.jsonwebtoken.Claims;
@@ -40,8 +41,9 @@ public class JwtTokenUtil {
     private String generateToken(UserDetails userDetails, long expirationMs, String tokenType) {
         Date now = new Date();
         Date expirationDate = new Date(now.getTime() + expirationMs);
+        User user = userService.findUserByUsername(userDetails.getUsername());
         return Jwts.builder()
-                .setSubject(userDetails.getUsername())
+                .setSubject(String.valueOf(user.getId()))
                 .claim("type", tokenType)
                 .setIssuedAt(now)
                 .setExpiration(expirationDate)

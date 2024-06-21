@@ -51,4 +51,9 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
     }
 
+    public User findUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + username));
+    }
+
 }
