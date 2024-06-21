@@ -1,21 +1,25 @@
 package com.example.writemymail.service.user;
 
 import com.example.writemymail.domain.dto.UserRequest;
+import com.example.writemymail.domain.entity.Email;
 import com.example.writemymail.domain.entity.User;
 import com.example.writemymail.error.CredentialsAlreadyExistsException;
 import com.example.writemymail.error.UserNotFoundException;
+import com.example.writemymail.repository.EmailRepository;
 import com.example.writemymail.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final EmailRepository emailRepository;
 
 
     @Override
@@ -38,6 +42,12 @@ public class UserServiceImpl implements UserService {
         user.setName(userRequest.getName());
         user.setInfo(userRequest.getInfo());
         save(user);
+    }
+
+    @Override
+    public List<Email> getUserEmails(UUID userId){
+        User user = findUserById(userId);
+        return emailRepository.findByUser(user);
     }
 
     @Override

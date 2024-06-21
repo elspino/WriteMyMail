@@ -43,8 +43,9 @@ public class JwtTokenUtil {
         Date expirationDate = new Date(now.getTime() + expirationMs);
         User user = userService.findUserByUsername(userDetails.getUsername());
         return Jwts.builder()
-                .setSubject(String.valueOf(user.getId()))
+                .setSubject(userDetails.getUsername())
                 .claim("type", tokenType)
+                .claim("id", user.getId())
                 .setIssuedAt(now)
                 .setExpiration(expirationDate)
                 .signWith(SignatureAlgorithm.HS512, secret)
