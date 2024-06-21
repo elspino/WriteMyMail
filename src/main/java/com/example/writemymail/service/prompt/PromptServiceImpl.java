@@ -25,6 +25,6 @@ public class PromptServiceImpl implements PromptService{
     public String createUpgradePrompt(UpgradePromptRequest promptRequest) {
         String prompt = promptRepository.findTextByType(UPGRADE.name().toLowerCase());
         return String.format(prompt, promptRequest.getSender(), promptRequest.getSubject(),
-                promptRequest.getBody(), promptRequest.getPurpose());
+                promptRequest.getBody());
     }
 }

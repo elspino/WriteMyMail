@@ -9,5 +9,4 @@ public class UpgradePromptRequest {
     String sender;
     String subject;
     String body;
-    String purpose;
 }
