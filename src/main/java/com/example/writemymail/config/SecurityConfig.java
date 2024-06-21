@@ -44,8 +44,11 @@ public class SecurityConfig {
                 }))
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(
-                                "/api/v1/**")
-                            .hasRole(Role.USER.name())
+                                "/api/v1/user")
+                        .hasRole(Role.ADMIN.name())
+                        .requestMatchers(
+                                "/api/v1/user/only-access")
+                        .hasRole(Role.USER.name())
                         .requestMatchers(
                                 "/api/v1/auth/register",
                                 "/api/v1/auth",
@@ -55,11 +58,9 @@ public class SecurityConfig {
                                 "/swagger-resources/**",
                                 "/swagger-resources"
                         )
-                            .permitAll()
-
+                        .permitAll()
                         .anyRequest().authenticated()
                 )
-
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
