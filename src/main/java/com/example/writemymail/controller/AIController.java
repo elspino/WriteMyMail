@@ -15,12 +15,12 @@ public class AIController {
     private final AIService aiService;
 
 
-    @GetMapping("/generate")
+    @PostMapping("/generate")
     public GeneratedMessageResponse generateMessage(@RequestBody GenerationPromptRequest promptRequest) {
         return aiService.generateMessage(promptRequest);
     }
 
-    @GetMapping("/upgrade")
+    @PostMapping("/upgrade")
     public UpgradedMessageResponse upgradeMessage(@RequestBody UpgradePromptRequest promptRequest) {
         return aiService.upgradeMessage(promptRequest);
     }

@@ -16,14 +16,14 @@ public class PromptServiceImpl implements PromptService{
 
     @Override
     public String createGenerationPrompt(GenerationPromptRequest promptRequest) {
-        String prompt = promptRepository.findTextByType(GENERATE.name().toLowerCase());
+        String prompt = promptRepository.findTextForPromptByType(GENERATE.name().toLowerCase());
         return String.format(prompt, promptRequest.getSender(), promptRequest.getSenderInfo(),
                 promptRequest.getRecipientInfo(), promptRequest.getPurpose(), promptRequest.getRequirements());
     }
 
     @Override
     public String createUpgradePrompt(UpgradePromptRequest promptRequest) {
-        String prompt = promptRepository.findTextByType(UPGRADE.name().toLowerCase());
+        String prompt = promptRepository.findTextForPromptByType(UPGRADE.name().toLowerCase());
         return String.format(prompt, promptRequest.getSender(), promptRequest.getSubject(),
                 promptRequest.getBody());
     }

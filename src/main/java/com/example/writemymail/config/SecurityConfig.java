@@ -44,19 +44,17 @@ public class SecurityConfig {
                 }))
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(
-                                "/api/v1/user")
-                        .hasRole(Role.ADMIN.name())
-                        .requestMatchers(
-                                "/api/v1/user/only-access")
+                                "/api/v1/mail/**",
+                                "/api/v1/email/**",
+                                "/api/v1/user/**",
+                                "/api/v1/ai/**"
+                        )
                         .hasRole(Role.USER.name())
                         .requestMatchers(
-                                "/api/v1/auth/register",
-                                "/api/v1/auth",
-                                "/api/v1/auth/refresh",
+                                "/api/v1/auth/**",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
-                                "/swagger-resources/**",
-                                "/swagger-resources"
+                                "/swagger-resources/**"
                         )
                         .permitAll()
                         .anyRequest().authenticated()

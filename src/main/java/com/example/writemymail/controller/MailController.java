@@ -3,7 +3,7 @@ package com.example.writemymail.controller;
 import com.example.writemymail.domain.dto.MailRequest;
 import com.example.writemymail.service.mail.MailService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MailController {
     private final MailService mailService;
 
-    @GetMapping("/send")
+    @PostMapping("/send")
     public void sendMessage(@RequestBody MailRequest mailRequest){
         mailService.sendMessage(mailRequest);
     }
