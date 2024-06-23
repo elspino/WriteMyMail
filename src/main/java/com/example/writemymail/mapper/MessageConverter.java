@@ -26,12 +26,16 @@ public class MessageConverter {
         }
     }
     public GeneratedMessageResponse parseMessageToResponse(String message) {
-        Pattern pattern = Pattern.compile("ТЕМА: (.*?)\\s+ТЕКСТ: (.*)\\s", Pattern.DOTALL);
+        Pattern pattern = Pattern.compile("ТЕМА:\\s*(.*?)\\s+ТЕКСТ:\\s*(.*)", Pattern.DOTALL);
         Matcher matcher = pattern.matcher(message);
-        return GeneratedMessageResponse.builder()
-                .subject(matcher.group(1))
-                .text(matcher.group(2))
-                .build();
+        if (matcher.find()) {
+            return GeneratedMessageResponse.builder()
+                    .subject(matcher.group(1))
+                    .text(matcher.group(2))
+                    .build();
+        } else {
+            throw new IllegalStateException("No match found");
+        }
 
     }
 }
