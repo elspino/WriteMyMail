@@ -28,19 +28,17 @@ public class AIServiceImpl implements AIService {
     private final PromptService promptService;
 
     @Override
-    public GeneratedMessageResponse generateMessage(GenerationPromptRequest promptRequest) {
+    public AIMessageResponse generateMessage(GenerationPromptRequest promptRequest) {
         String prompt = promptService.createGenerationPrompt(promptRequest);
         String message = getMessageFromAI(prompt);
         return messageConverter.parseMessageToResponse(message);
     }
 
     @Override
-    public UpgradedMessageResponse upgradeMessage(UpgradePromptRequest promptRequest) {
+    public AIMessageResponse upgradeMessage(UpgradePromptRequest promptRequest) {
         String prompt = promptService.createUpgradePrompt(promptRequest);
-        String response = getMessageFromAI(prompt);
-        return UpgradedMessageResponse.builder()
-                .text(response)
-                .build();
+        String message = getMessageFromAI(prompt);
+        return messageConverter.parseMessageToResponse(message);
     }
 
     private String getMessageFromAI(String prompt) {

@@ -3,6 +3,7 @@ package com.example.writemymail.controller;
 import com.example.writemymail.domain.dto.EmailRequest;
 import com.example.writemymail.domain.dto.EmailResponse;
 import com.example.writemymail.service.email.EmailService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,7 @@ public class EmailController {
     private final EmailService emailService;
     
     @PostMapping("/create")
-    public EmailResponse createEmail(@RequestBody EmailRequest emailRequest){
+    public EmailResponse createEmail(@Valid @RequestBody EmailRequest emailRequest){
         return emailService.createEmail(emailRequest);
     }
 

@@ -1,11 +1,10 @@
 package com.example.writemymail.service.ai;
 
 import com.example.writemymail.domain.dto.GenerationPromptRequest;
-import com.example.writemymail.domain.dto.GeneratedMessageResponse;
+import com.example.writemymail.domain.dto.AIMessageResponse;
 import com.example.writemymail.domain.dto.UpgradePromptRequest;
-import com.example.writemymail.domain.dto.UpgradedMessageResponse;
 
 public interface AIService {
-    UpgradedMessageResponse upgradeMessage(UpgradePromptRequest promptRequest);
-    GeneratedMessageResponse generateMessage(GenerationPromptRequest promptRequest);
+    AIMessageResponse upgradeMessage(UpgradePromptRequest promptRequest);
+    AIMessageResponse generateMessage(GenerationPromptRequest promptRequest);
 }

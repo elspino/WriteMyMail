@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
-public class GeneratedMessageResponse {
+public class AIMessageResponse {
     String subject;
     String text;
 }

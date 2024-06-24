@@ -1,7 +1,7 @@
 package com.example.writemymail.mapper;
 
 import com.example.writemymail.domain.dto.AIResponse;
-import com.example.writemymail.domain.dto.GeneratedMessageResponse;
+import com.example.writemymail.domain.dto.AIMessageResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.io.IOException;
@@ -25,11 +25,11 @@ public class MessageConverter {
             throw new IOException("Ошибка обработки JSON" + e.getMessage());
         }
     }
-    public GeneratedMessageResponse parseMessageToResponse(String message) {
+    public AIMessageResponse parseMessageToResponse(String message) {
         Pattern pattern = Pattern.compile("ТЕМА:\\s*(.*?)\\s+ТЕКСТ:\\s*(.*)", Pattern.DOTALL);
         Matcher matcher = pattern.matcher(message);
         if (matcher.find()) {
-            return GeneratedMessageResponse.builder()
+            return AIMessageResponse.builder()
                     .subject(matcher.group(1))
                     .text(matcher.group(2))
                     .build();
