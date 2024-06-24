@@ -28,6 +28,9 @@ public class EmailServiceImpl implements EmailService {
         String emailName = emailRequest.getName();
         Email email = emailRepository.findById(emailId)
                 .orElseThrow(() -> new EmailNotFoundException("Email not found with id: " + emailId));
+        if (!email.getName().equals(emailName)){
+            checkIfEmailExists(emailName);
+        }
         email.setName(emailName);
         email.setType(getEmailType(emailName));
         email.setPassword(emailRequest.getPassword());
@@ -36,15 +39,13 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public EmailResponse createEmail(EmailRequest emailRequest) {
-        String name = emailRequest.getName();
-        if (emailRepository.existsByName(name)) {
-            throw new EmailAlreadyExistsException("Такая почта уже добавлена");
-        }
+        String emailName = emailRequest.getName();
+        checkIfEmailExists(emailName);
         UUID userId = emailRequest.getUser().getId();
         User user = userService.findUserById(userId);
         Email email = Email.builder()
-                .name(name)
-                .type(getEmailType(name))
+                .name(emailName)
+                .type(getEmailType(emailName))
                 .password(emailRequest.getPassword())
                 .user(user)
                 .build();
@@ -69,5 +70,11 @@ public class EmailServiceImpl implements EmailService {
 
     private Email save(Email email) {
         return emailRepository.save(email);
+    }
+
+    private void checkIfEmailExists(String emailName){
+        if (emailRepository.existsByName(emailName)) {
+            throw new EmailAlreadyExistsException("Такая почта уже добавлена");
+        }
     }
 }
