@@ -24,7 +24,7 @@ public class EmailController {
     }
 
     @PostMapping("/update")
-    public void updateEmail(@RequestBody EmailRequest emailRequest){
+    public void updateEmail(@Valid @RequestBody EmailRequest emailRequest){
         emailService.updateEmail(emailRequest);
     }
 }
